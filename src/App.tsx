@@ -1,38 +1,59 @@
-// import { useState } from "react";
-// import { useMetronome } from "./hooks/useMetronome";
 import { css } from "../styled-system/css";
 
 function App() {
-	// const [bpm, setBpm] = useState(120);
-	// const { isPlaying, togglePlay } = useMetronome(bpm);
-
 	return (
-		<>
-			<div className={css({})}></div>
-			{/* 			<div
+		<div
+			className={css({
+				display: "grid",
+				gridTemplateColumns: "1fr",
+				alignSelf: "start",
+			})}
+		>
+			{/* DataView: BPM Value */}
+			<div
 				className={css({
+					display: "grid",
 					w: "full",
 					h: "full",
+					placeContent: "center",
+					placeItems: "center",
 				})}
 			>
-				<div>
-					<h1>メトロノームアプリ試作</h1>
-				</div>
-
-				<div>
-					<label htmlFor="">BPM: {bpm}</label>
-					<input
-						type="range"
-						min="40"
-						max="240"
-						value={bpm}
-						onChange={(e) => setBpm(Number(e.target.value))}
-					/>
-				</div>
-
-				<button onClick={togglePlay}>{isPlaying ? "STOP" : "START"}</button>
-			</div> */}
-		</>
+				<output
+					className={css({
+						fontFamily: "orbitron",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "baseline",
+						gap: 4,
+					})}
+				>
+					<span
+						className={css({
+							fontSize: "8xl",
+							fontWeight: "600",
+						})}
+					>
+						123
+					</span>
+					<span
+						className={css({
+							fontSize: "3xl",
+						})}
+					>
+						BPM
+					</span>
+				</output>
+			</div>
+		</div>
 	);
 }
 export default App;
+
+// {/* DataView: BPM Value */}
+// {/* Visual: Beat Indicator */}
+// {/* Controler: Beat&Rhythm Selector */}
+// {/* Controler: Touch Pad */}
+// {/* Controler: Volume slider */}
+// {/* Controler: BPM Slider */}
+// {/* Controler: TogglePlay Button */}
