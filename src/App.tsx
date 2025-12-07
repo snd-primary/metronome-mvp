@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { useMetronome } from "./hooks/useMetronome";
+// import { useState } from "react";
+// import { useMetronome } from "./hooks/useMetronome";
 import { css } from "../styled-system/css";
 
 function App() {
-	const [bpm, setBpm] = useState(120);
-	const { isPlaying, togglePlay, isBeat } = useMetronome(bpm);
+	// const [bpm, setBpm] = useState(120);
+	// const { isPlaying, togglePlay } = useMetronome(bpm);
 
 	return (
 		<>
-			<div
+			<div className={css({})}></div>
+			{/* 			<div
 				className={css({
 					w: "full",
-					h: "100vh",
-					backgroundColor: isBeat ? "#232323" : "#222222",
+					h: "full",
 				})}
 			>
 				<div>
@@ -31,7 +31,7 @@ function App() {
 				</div>
 
 				<button onClick={togglePlay}>{isPlaying ? "STOP" : "START"}</button>
-			</div>
+			</div> */}
 		</>
 	);
 }
