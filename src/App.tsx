@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { css } from "../styled-system/css";
 
+const COLOR_MAIN: string = "#4CAF50";
+
 // --- 数学ヘルパー関数: 角度と半径から座標を求める ---
 const polarToCartesian = (
 	centerX: number,
@@ -70,33 +72,35 @@ const App = () => {
 	const size = 200;
 	const center = size / 2;
 	const outerRadius = 80;
-	const innerRadius = 45;
+	const innerRadius = 40;
 	const baseGap = 11; // 隙間（角度）
 
 	// ★ここで角丸の強さを調整！
 	const cornerRadius = 4;
 
-	// --- ★変更点: currentGapのロジック ---
+	// segmentsが1の時は、完全なドーナツとする ---
 	const isSingle = count === 1;
 	const currentGap = isSingle ? 0 : baseGap;
+
+	// ★枠線の設定を追加
+	const borderColor = "red"; // 枠線の色（例: 白）
+	const borderSize = 1; // 枠線の太さ
 
 	// --- 描画データの生成 ---
 	// 1つの扇形が占める角度（隙間分を引く）
 	const totalAngle = 360;
 	const anglePerSegment = totalAngle / count;
-	// const arcAngle = Math.max(0, anglePerSegment - currentGap);
 	const arcLength = isSingle
 		? 359.99
 		: Math.max(0, anglePerSegment - currentGap);
 
-	// 配列を生成してmapで回す
 	const segments = Array.from({ length: count }, (_, i) => {
 		const startAngle = i * anglePerSegment;
 		const endAngle = startAngle + arcLength;
 		return {
 			startAngle,
 			endAngle,
-			color: "#4CAF50",
+			color: COLOR_MAIN,
 		};
 	});
 
@@ -111,27 +115,42 @@ const App = () => {
 						cy={center}
 						r={outerRadius + cornerRadius + 4}
 						fill="none"
-						stroke="#4CAF50"
+						stroke={COLOR_MAIN}
 						strokeWidth="1"
 					/>
 
-					{segments.map((seg, i) => (
-						<path
-							key={i}
-							d={describeArc(
-								center,
-								center,
-								innerRadius,
-								outerRadius,
-								seg.startAngle,
-								seg.endAngle
-							)}
-							fill={seg.color}
-							stroke={seg.color}
-							strokeWidth={cornerRadius * 2}
-							strokeLinejoin="round"
-						/>
-					))}
+					{segments.map((seg, i) => {
+						const pathData = describeArc(
+							center,
+							center,
+							innerRadius,
+							outerRadius,
+							seg.startAngle,
+							seg.endAngle
+						);
+
+						return (
+							<g key={i}>
+								{/* --- 1. 下レイヤー：本体（塗りつぶし＋角丸用の太い線） --- */}
+								<path
+									d={pathData}
+									fill={seg.color}
+									stroke={seg.color}
+									strokeWidth={cornerRadius * 2}
+									strokeLinejoin="round"
+								/>
+
+								{/* --- 2. 上レイヤー：枠線（中身は透明） --- */}
+								<path
+									d={pathData}
+									fill="none" // 重要: 中身を透明にする
+									stroke={borderColor} // 枠線の色
+									strokeWidth={borderSize} // 枠線の太さ
+									strokeLinejoin="round" // 枠線の角も丸める
+								/>
+							</g>
+						);
+					})}
 				</svg>
 
 				<div
