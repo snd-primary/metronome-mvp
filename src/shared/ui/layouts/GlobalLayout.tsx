@@ -36,10 +36,7 @@ export const GlobalLayout: React.FC<Props> = ({ children }) => {
 					h: "full",
 					p: 4,
 					display: "grid",
-					maxW: "1/2",
-					borderRight: "1px solid ",
-					borderLeft: "1px solid ",
-					borderColor: "border",
+					maxW: "full",
 				})}
 			>
 				{children}
