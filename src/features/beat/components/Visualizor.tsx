@@ -97,53 +97,27 @@ export const Visualizor = () => {
 	};
 
 	return (
-		<>
-			<div
-				className={css({
-					display: "grid",
-					gridTemplateColumns: "repeat(4, 80px)",
-					w: "full",
-					h: "full",
-				})}
-			>
-				{/* 各拍ごとに円を描画 */}
-				{beats.map((beat, beatIndex) => (
-					<BeatCircle
-						key={beat.id}
-						beat={beat}
-						beatIndex={beatIndex}
-						currentBeatIndex={currentBeatIndex}
-						currentSegmentIndex={currentSegmentIndex}
-						updateDivisions={updateDivisions}
-					/>
-				))}
-
-				<div
-					className={css({
-						display: "grid",
-						gap: 8,
-						marginTop: 4,
-					})}
-				>
-					<MetronomeControl
-						isPlaying={isPlaying}
-						bpm={bpm}
-						togglePlay={togglePlay}
-						setBpm={setBpm}
-					/>
-
-					<TimeSignatureControl
-						currentBeatCount={beats.length}
-						setTimeSignature={setTimeSignature}
-					/>
-
-					<BeatCountControl
-						beatCount={beats.length}
-						addBeat={addBeat}
-						removeBeat={removeBeat}
-					/>
-				</div>
-			</div>
-		</>
+		<div
+			className={css({
+				display: "grid",
+				gridTemplateColumns: "repeat(4, 80px)",
+				alignContent: "start",
+				justifyContent: "center",
+				w: "full",
+				h: "full",
+			})}
+		>
+			{/* 各拍ごとに円を描画 */}
+			{beats.map((beat, beatIndex) => (
+				<BeatCircle
+					key={beat.id}
+					beat={beat}
+					beatIndex={beatIndex}
+					currentBeatIndex={currentBeatIndex}
+					currentSegmentIndex={currentSegmentIndex}
+					updateDivisions={updateDivisions}
+				/>
+			))}
+		</div>
 	);
 };

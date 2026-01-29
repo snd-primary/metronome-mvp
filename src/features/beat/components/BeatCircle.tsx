@@ -51,73 +51,65 @@ export const BeatCircle = ({
 	const segments = createSegments(beat.divisions, beat.color);
 
 	return (
-		<div>
-			<svg
-				viewBox={`0 0 ${size} ${size}`}
-				className={css({
-					w: "full",
-					h: "full",
-				})}
-			>
-				{/* 外側の枠線 */}
-				<circle
-					cx={center}
-					cy={center}
-					r={outerRadius + cornerRadius + 4}
-					fill="none"
-					stroke={beat.color}
-					strokeWidth="1"
-				/>
-
-				{segments.map((seg, segmentIndex) => {
-					const pathData = describeArc(
-						center,
-						center,
-						innerRadius,
-						outerRadius,
-						seg.startAngle,
-						seg.endAngle,
-					);
-
-					// この音符が既に鳴ったかどうかを判定
-					let isActivated = false;
-					if (beatIndex < currentBeatIndex) {
-						// 過去の拍は全て鳴った
-						isActivated = true;
-					} else if (beatIndex === currentBeatIndex) {
-						// 現在の拍では、現在のセグメント「も含めて」塗りつぶす
-						isActivated = segmentIndex <= currentSegmentIndex;
-					}
-
-					return (
-						<g key={segmentIndex}>
-							{/* --- 1. 下レイヤー：本体（塗りつぶし＋角丸用の太い線） --- */}
-							<path
-								d={pathData}
-								fill={isActivated ? seg.color : "none"}
-								stroke={seg.color}
-								strokeWidth={cornerRadius * 2}
-								strokeLinejoin="round"
-							/>
-
-							{/* --- 2. 上レイヤー：枠線（中身は透明） --- */}
-							<path
-								d={pathData}
-								fill="none"
-								stroke={borderColor}
-								strokeWidth={borderSize}
-								strokeLinejoin="round"
-							/>
-						</g>
-					);
-				})}
-			</svg>
-
-			<DivisionControl
-				beatIndex={beatIndex}
-				beat={beat}
-				updateDivisions={updateDivisions}
+		<svg
+			viewBox={`0 0 ${size} ${size}`}
+			className={css({
+				w: "full",
+				h: "full",
+			})}
+		>
+			{/* 外側の枠線 */}
+			<circle
+				cx={center}
+				cy={center}
+				r={outerRadius + cornerRadius + 4}
+				fill="none"
+				stroke={beat.color}
+				strokeWidth="1"
 			/>
-		</div>
+
+			{segments.map((seg, segmentIndex) => {
+				const pathData = describeArc(
+					center,
+					center,
+					innerRadius,
+					outerRadius,
+					seg.startAngle,
+					seg.endAngle,
+				);
+
+				// この音符が既に鳴ったかどうかを判定
+				let isActivated = false;
+				if (beatIndex < currentBeatIndex) {
+					// 過去の拍は全て鳴った
+					isActivated = true;
+				} else if (beatIndex === currentBeatIndex) {
+					// 現在の拍では、現在のセグメント「も含めて」塗りつぶす
+					isActivated = segmentIndex <= currentSegmentIndex;
+				}
+
+				return (
+					<g key={segmentIndex}>
+						{/* --- 1. 下レイヤー：本体（塗りつぶし＋角丸用の太い線） --- */}
+						<path
+							d={pathData}
+							fill={isActivated ? seg.color : "none"}
+							stroke={seg.color}
+							strokeWidth={cornerRadius * 2}
+							strokeLinejoin="round"
+						/>
+
+						{/* --- 2. 上レイヤー：枠線（中身は透明） --- */}
+						<path
+							d={pathData}
+							fill="none"
+							stroke={borderColor}
+							strokeWidth={borderSize}
+							strokeLinejoin="round"
+						/>
+					</g>
+				);
+			})}
+		</svg>
 	);
 };

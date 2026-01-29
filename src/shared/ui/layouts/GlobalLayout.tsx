@@ -19,17 +19,6 @@ export const GlobalLayout: React.FC<Props> = ({ children }) => {
 				w: "full",
 			})}
 		>
-			<header
-				className={css({
-					w: "full",
-					h: "full",
-					display: "grid",
-					alignItems: "center",
-					p: 4,
-				})}
-			>
-				ヘッダー
-			</header>
 			<main
 				className={css({
 					w: "full",
@@ -41,15 +30,6 @@ export const GlobalLayout: React.FC<Props> = ({ children }) => {
 			>
 				{children}
 			</main>
-			<footer
-				className={css({
-					w: "full",
-					h: "full",
-					p: 4,
-				})}
-			>
-				フッター
-			</footer>
 		</div>
 	);
 };
