@@ -9,12 +9,12 @@ export const BpmDisplay = () => {
 					gap: 4,
 					alignItems: "baseline",
 					justifyContent: "center",
+					fontFamily: "orbitron",
 				})}
 			>
 				<output
 					className={css({
-						fontSize: "6xl",
-						fontFamily: "orbitron",
+						fontSize: "8xl",
 					})}
 				>
 					120
