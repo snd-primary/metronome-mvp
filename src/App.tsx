@@ -1,5 +1,6 @@
 import { css } from "../styled-system/css";
 import { Visualizor } from "./features/beat/components/Visualizor";
+import { BpmDisplay } from "./features/metronome/components/BpmDIsplay";
 
 const App = () => {
 	return (
@@ -9,6 +10,7 @@ const App = () => {
 				alignItems: "start",
 			})}
 		>
+			<BpmDisplay />
 			<Visualizor />
 		</div>
 	);
