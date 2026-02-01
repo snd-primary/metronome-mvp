@@ -4,9 +4,6 @@ import { useMetronome } from "../../metronome/hooks/useMetronome";
 import type { Beat } from "../types";
 import { playbackReducer } from "../reducers/playBackReducer";
 import { BeatCircle } from "./BeatCircle";
-import { MetronomeControl } from "./MetronomeControl";
-import { TimeSignatureControl } from "./TimeSignatureControl";
-import { BeatCountControl } from "./BeatCountControl";
 
 export const Visualizor = () => {
 	// --- 拍の管理 ---
@@ -22,7 +19,7 @@ export const Visualizor = () => {
 	const [bpm, setBpm] = useState(120);
 
 	// メトロノームの統合
-	const { isPlaying, togglePlay, isBeat } = useMetronome(bpm);
+	const { isBeat } = useMetronome(bpm);
 
 	// プレイバック位置をreducerで管理
 	// segmentIndex: -1 は「まだ何も鳴っていない」を表す
@@ -42,7 +39,7 @@ export const Visualizor = () => {
 	}, [isBeat, beats]);
 
 	// 拍の色のパレット
-	const colorPalette = [
+	/* 	const colorPalette = [
 		"#4CAF50",
 		"#2196F3",
 		"#FF9800",
@@ -51,10 +48,10 @@ export const Visualizor = () => {
 		"#00BCD4",
 		"#FFEB3B",
 		"#795548",
-	];
+	]; */
 
 	// 拍子を設定（n拍子）
-	const setTimeSignature = (count: number) => {
+	/* 	const setTimeSignature = (count: number) => {
 		const newBeats: Beat[] = [];
 		for (let i = 0; i < count; i++) {
 			newBeats.push({
@@ -65,21 +62,21 @@ export const Visualizor = () => {
 		}
 		setBeats(newBeats);
 		dispatch({ type: "RESET" }); // インデックスをリセット
-	};
+	}; */
 
 	// 拍を追加
-	const addBeat = () => {
+	/* 	const addBeat = () => {
 		const newId = `beat-${Date.now()}`;
 		const newColor = colorPalette[beats.length % colorPalette.length];
 		setBeats([...beats, { id: newId, divisions: 4, color: newColor }]);
-	};
+	}; */
 
 	// 拍を削除
-	const removeBeat = () => {
+	/* 	const removeBeat = () => {
 		if (beats.length > 1) {
 			setBeats(beats.slice(0, -1));
 		}
-	};
+	}; */
 
 	// 特定の拍の分割数を変更
 	const updateDivisions = (beatId: string, delta: number) => {
