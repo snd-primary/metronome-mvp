@@ -9,10 +9,10 @@ export const Visualizor = () => {
 	// --- 拍の管理 ---
 	// 初期状態: 4拍子でスタート
 	const [beats, setBeats] = useState<Beat[]>([
-		{ id: "beat-1", divisions: 4, color: "#4CAF50" },
-		{ id: "beat-2", divisions: 4, color: "#2196F3" },
-		{ id: "beat-3", divisions: 4, color: "#FF9800" },
-		{ id: "beat-4", divisions: 4, color: "#E91E63" },
+		{ id: "beat-1", divisions: 4 },
+		{ id: "beat-2", divisions: 4 },
+		{ id: "beat-3", divisions: 4 },
+		{ id: "beat-4", divisions: 4 },
 	]);
 
 	// BPM設定
@@ -37,18 +37,6 @@ export const Visualizor = () => {
 			dispatch({ type: "NEXT_SEGMENT", beats });
 		}
 	}, [isBeat, beats]);
-
-	// 拍の色のパレット
-	/* 	const colorPalette = [
-		"#4CAF50",
-		"#2196F3",
-		"#FF9800",
-		"#E91E63",
-		"#9C27B0",
-		"#00BCD4",
-		"#FFEB3B",
-		"#795548",
-	]; */
 
 	// 拍子を設定（n拍子）
 	/* 	const setTimeSignature = (count: number) => {

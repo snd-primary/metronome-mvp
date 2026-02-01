@@ -1,7 +1,7 @@
 import { css } from "../../../../styled-system/css";
+import { token } from "../../../../styled-system/tokens";
 import type { Beat } from "../types";
 import { describeArc } from "../utils/svgUtils";
-import DivisionControl from "./DivisionControl";
 
 type Props = {
 	beat: Beat;
@@ -18,10 +18,10 @@ const outerRadius = 80;
 const innerRadius = 40;
 const baseGap = 11;
 const cornerRadius = 4;
-const borderColor = "red";
 const borderSize = 1;
+const color = token("colors.foreground");
 
-const createSegments = (divisions: number, color: string) => {
+const createSegments = (divisions: number) => {
 	const isSingle = divisions === 1;
 	const currentGap = isSingle ? 0 : baseGap;
 	const totalAngle = 360;
@@ -36,7 +36,6 @@ const createSegments = (divisions: number, color: string) => {
 		return {
 			startAngle,
 			endAngle,
-			color,
 		};
 	});
 };
@@ -48,7 +47,7 @@ export const BeatCircle = ({
 	currentSegmentIndex,
 	updateDivisions,
 }: Props) => {
-	const segments = createSegments(beat.divisions, beat.color);
+	const segments = createSegments(beat.divisions);
 
 	return (
 		<svg
@@ -64,7 +63,7 @@ export const BeatCircle = ({
 				cy={center}
 				r={outerRadius + cornerRadius + 4}
 				fill="none"
-				stroke={beat.color}
+				stroke={color}
 				strokeWidth="1"
 			/>
 
@@ -93,8 +92,8 @@ export const BeatCircle = ({
 						{/* --- 1. 下レイヤー：本体（塗りつぶし＋角丸用の太い線） --- */}
 						<path
 							d={pathData}
-							fill={isActivated ? seg.color : "none"}
-							stroke={seg.color}
+							fill={isActivated ? color : "none"}
+							stroke={color}
 							strokeWidth={cornerRadius * 2}
 							strokeLinejoin="round"
 						/>
@@ -103,7 +102,7 @@ export const BeatCircle = ({
 						<path
 							d={pathData}
 							fill="none"
-							stroke={borderColor}
+							stroke={color}
 							strokeWidth={borderSize}
 							strokeLinejoin="round"
 						/>

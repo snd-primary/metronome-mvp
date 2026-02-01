@@ -2,7 +2,6 @@
 export type Beat = {
 	id: string;
 	divisions: number; // この拍の分割数（リズムパターン）
-	color: string;
 };
 
 // プレイバック位置の状態
