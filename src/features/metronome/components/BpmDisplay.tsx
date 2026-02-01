@@ -10,16 +10,23 @@ export const BpmDisplay = () => {
 					alignItems: "baseline",
 					justifyContent: "center",
 					fontFamily: "orbitron",
+					fontWeight: "bold",
 				})}
 			>
 				<output
 					className={css({
-						fontSize: "8xl",
+						fontSize: "7xl",
 					})}
 				>
 					120
 				</output>
-				<span>bpm</span>
+				<span
+					className={css({
+						fontSize: "xl",
+					})}
+				>
+					bpm
+				</span>
 			</span>
 		</div>
 	);
