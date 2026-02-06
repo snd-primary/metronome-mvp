@@ -6,6 +6,10 @@ import { playbackReducer } from "../reducers/playBackReducer";
 import { BeatCircle } from "./BeatCircle";
 import { TimeSignatureSelector } from "./TimeSignatureSelector";
 import DivisionControl from "./DivisionControl";
+import { TouchPad } from "./TouchPad";
+import { VolumeSlider } from "../../metronome/components/VolumeSlider";
+import { BpmSlider } from "../../metronome/components/BpmSlider";
+import { PlayButton } from "../../metronome/components/PlayButton";
 
 export const Visualizor = () => {
 	// --- 拍の管理 ---
@@ -129,7 +133,10 @@ export const Visualizor = () => {
 				<DivisionControl />
 			</div>
 
-			<div></div>
+			<TouchPad />
+			<VolumeSlider />
+			<BpmSlider />
+			<PlayButton />
 		</div>
 	);
 };
