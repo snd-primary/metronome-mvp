@@ -3,14 +3,10 @@ import { css } from "../../../../styled-system/css";
 const ACCENT_COLOR = "oklch(0.75 0.12 110)";
 const DIM_COLOR = "oklch(0.35 0.06 110)";
 
-// ティックマークの高さを生成（中央が高く、端が低いベルカーブ）
 const TICK_COUNT = 31;
-const ticks = Array.from({ length: TICK_COUNT }, (_, i) => {
-	const center = (TICK_COUNT - 1) / 2;
-	const distance = Math.abs(i - center) / center;
-	const height = 8 + (1 - distance * distance) * 32;
-	return height;
-});
+const CENTER = Math.floor(TICK_COUNT / 2);
+const TICK_HEIGHT = 36;
+const CENTER_TICK_HEIGHT = 50;
 
 export const BpmSlider = () => {
 	return (
@@ -61,40 +57,65 @@ export const BpmSlider = () => {
 					</svg>
 				</button>
 
-				{/* ティックマークバー */}
-				<svg
-					viewBox={`0 0 ${TICK_COUNT * 6} 50`}
-					className={css({ w: "full", h: "40px" })}
-					preserveAspectRatio="none"
-				>
-					{ticks.map((height, i) => {
-						const x = i * 6 + 3;
-						const y = 25 - height / 2;
-						const isCenter = i === Math.floor(TICK_COUNT / 2);
-						return (
-							<rect
-								key={i}
-								x={x - 1}
-								y={y}
-								width={isCenter ? 3 : 2}
-								height={height}
-								rx="1"
-								fill={ACCENT_COLOR}
-								opacity={isCenter ? 1 : 0.7}
-							/>
-						);
+				{/* ティックマークバー（グラデーションオーバーレイ付き） */}
+				<div
+					className={css({
+						position: "relative",
+						w: "full",
+						_after: {
+							content: '""',
+							position: "absolute",
+							inset: 0,
+							background:
+								"linear-gradient(to right, var(--colors-background) 0%, transparent 30%, transparent 70%, var(--colors-background) 100%)",
+							pointerEvents: "none",
+						},
 					})}
-					{/* 中央インジケーターライン */}
-					<line
-						x1={(TICK_COUNT * 6) / 2}
-						y1="0"
-						x2={(TICK_COUNT * 6) / 2}
-						y2="50"
-						stroke={ACCENT_COLOR}
-						strokeWidth="1"
-						opacity="0.3"
-					/>
-				</svg>
+				>
+					<svg
+						viewBox={`0 0 ${TICK_COUNT * 6} 50`}
+						className={css({ w: "full", h: "40px", display: "block" })}
+						preserveAspectRatio="none"
+					>
+						{/* 中央ガイドライン（上） */}
+						<line
+							x1={CENTER * 6 + 3}
+							y1={0}
+							x2={CENTER * 6 + 3}
+							y2={25 - CENTER_TICK_HEIGHT / 2 - 2}
+							stroke={ACCENT_COLOR}
+							strokeWidth="1"
+							opacity="0.5"
+						/>
+						{/* 中央ガイドライン（下） */}
+						<line
+							x1={CENTER * 6 + 3}
+							y1={25 + CENTER_TICK_HEIGHT / 2 + 2}
+							x2={CENTER * 6 + 3}
+							y2={50}
+							stroke={ACCENT_COLOR}
+							strokeWidth="1"
+							opacity="0.5"
+						/>
+						{Array.from({ length: TICK_COUNT }, (_, i) => {
+							const isCenter = i === CENTER;
+							const height = isCenter ? CENTER_TICK_HEIGHT : TICK_HEIGHT;
+							const x = i * 7 - 18;
+							const y = 25 - height / 2;
+							return (
+								<rect
+									key={i}
+									x={x}
+									y={y}
+									width={isCenter ? 4.5 : 3}
+									height={height}
+									rx="4"
+									fill={ACCENT_COLOR}
+								/>
+							);
+						})}
+					</svg>
+				</div>
 
 				{/* プラスボタン */}
 				<button
@@ -141,20 +162,16 @@ export const BpmSlider = () => {
 			{/* BPM値表示 */}
 			<div
 				className={css({
-					display: "grid",
-					gridTemplateColumns: "auto auto",
-					justifyContent: "start",
-					alignItems: "baseline",
-					gap: 1,
 					color: "lamp",
+					display: "flex",
+
+					alignItems: "baseline",
+					gap: 2,
 				})}
 			>
 				<span
 					className={css({
 						fontSize: "3xl",
-						fontWeight: "bold",
-						fontStyle: "italic",
-						fontFamily: "orbitron",
 					})}
 				>
 					120
@@ -162,7 +179,6 @@ export const BpmSlider = () => {
 				<span
 					className={css({
 						fontSize: "sm",
-						fontFamily: "orbitron",
 					})}
 				>
 					bpm

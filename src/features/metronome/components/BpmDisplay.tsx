@@ -11,8 +11,7 @@ export const BpmDisplay = () => {
 		>
 			<output
 				className={css({
-					fontSize: "8xl",
-					fontWeight: "bold",
+					fontSize: "7xl",
 					lineHeight: "1",
 				})}
 			>
@@ -20,7 +19,7 @@ export const BpmDisplay = () => {
 			</output>
 			<span
 				className={css({
-					fontSize: "xs",
+					fontSize: "lg",
 					fontWeight: "bold",
 					textTransform: "uppercase",
 					letterSpacing: "0.2em",
