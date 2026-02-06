@@ -9,7 +9,6 @@ export const BpmDisplay = () => {
 					gap: 4,
 					alignItems: "baseline",
 					justifyContent: "center",
-					fontFamily: "orbitron",
 					fontWeight: "bold",
 				})}
 			>

@@ -17,6 +17,7 @@ export const GlobalLayout: React.FC<Props> = ({ children }) => {
 				justifyItems: "center",
 				h: "100vh",
 				w: "full",
+				fontFamily: "orbitron",
 			})}
 		>
 			<main

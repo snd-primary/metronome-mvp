@@ -4,6 +4,8 @@ import { useMetronome } from "../../metronome/hooks/useMetronome";
 import type { Beat } from "../types";
 import { playbackReducer } from "../reducers/playBackReducer";
 import { BeatCircle } from "./BeatCircle";
+import { TimeSignatureSelector } from "./TimeSignatureSelector";
+import DivisionControl from "./DivisionControl";
 
 export const Visualizor = () => {
 	// --- 拍の管理 ---
@@ -82,27 +84,52 @@ export const Visualizor = () => {
 	};
 
 	return (
-		<div
-			className={css({
-				display: "grid",
-				gridTemplateColumns: "repeat(4, 80px)",
-				alignContent: "start",
-				justifyContent: "center",
-				w: "full",
-				h: "full",
-			})}
-		>
-			{/* 各拍ごとに円を描画 */}
-			{beats.map((beat, beatIndex) => (
-				<BeatCircle
-					key={beat.id}
-					beat={beat}
-					beatIndex={beatIndex}
-					currentBeatIndex={currentBeatIndex}
-					currentSegmentIndex={currentSegmentIndex}
-					updateDivisions={updateDivisions}
-				/>
-			))}
+		<div>
+			<div
+				className={css({
+					display: "grid",
+					gridTemplateColumns: "repeat(4, 80px)",
+					alignContent: "start",
+					justifyContent: "center",
+					w: "full",
+					h: "full",
+				})}
+			>
+				{/* 各拍ごとに円を描画 */}
+				{beats.map((beat, beatIndex) => (
+					<BeatCircle
+						key={beat.id}
+						beat={beat}
+						beatIndex={beatIndex}
+						currentBeatIndex={currentBeatIndex}
+						currentSegmentIndex={currentSegmentIndex}
+						updateDivisions={updateDivisions}
+					/>
+				))}
+			</div>
+
+			{/* basic controls */}
+			<div
+				className={css({
+					w: "full",
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					gap: 6,
+				})}
+			>
+				<TimeSignatureSelector />
+				<span
+					className={css({
+						fontSize: "4xl",
+					})}
+				>
+					|
+				</span>
+				<DivisionControl />
+			</div>
+
+			<div></div>
 		</div>
 	);
 };
