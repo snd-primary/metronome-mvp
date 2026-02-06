@@ -35,6 +35,8 @@ export default defineConfig({
 					border: { value: "oklch(1 0 0 / 10%)" },
 					input: { value: "oklch(1 0 0 / 15%)" },
 					ring: { value: "oklch(0.556 0 0)" },
+					lamp: { value: "oklch(0.75 0.12 110)" },
+					"lamp-dim": { value: "oklch(0.35 0.06 110)" },
 				},
 				radii: {
 					radius: { value: "0.625rem" },

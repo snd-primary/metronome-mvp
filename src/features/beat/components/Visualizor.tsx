@@ -10,10 +10,10 @@ import { TouchPad } from "./TouchPad";
 import { VolumeSlider } from "../../metronome/components/VolumeSlider";
 import { BpmSlider } from "../../metronome/components/BpmSlider";
 import { PlayButton } from "../../metronome/components/PlayButton";
+import { BpmDisplay } from "../../metronome/components/BpmDisplay";
 
 export const Visualizor = () => {
 	// --- 拍の管理 ---
-	// 初期状態: 4拍子でスタート
 	const [beats, setBeats] = useState<Beat[]>([
 		{ id: "beat-1", divisions: 4 },
 		{ id: "beat-2", divisions: 4 },
@@ -21,14 +21,9 @@ export const Visualizor = () => {
 		{ id: "beat-4", divisions: 4 },
 	]);
 
-	// BPM設定
-	const [bpm, setBpm] = useState(120);
-
-	// メトロノームの統合
+	const [bpm] = useState(120);
 	const { isBeat } = useMetronome(bpm);
 
-	// プレイバック位置をreducerで管理
-	// segmentIndex: -1 は「まだ何も鳴っていない」を表す
 	const [playbackPosition, dispatch] = useReducer(playbackReducer, {
 		beatIndex: 0,
 		segmentIndex: -1,
@@ -37,42 +32,12 @@ export const Visualizor = () => {
 	const { beatIndex: currentBeatIndex, segmentIndex: currentSegmentIndex } =
 		playbackPosition;
 
-	// isBeatがtrueになったら次の音符（segment）に進む
 	useEffect(() => {
 		if (isBeat) {
 			dispatch({ type: "NEXT_SEGMENT", beats });
 		}
 	}, [isBeat, beats]);
 
-	// 拍子を設定（n拍子）
-	/* 	const setTimeSignature = (count: number) => {
-		const newBeats: Beat[] = [];
-		for (let i = 0; i < count; i++) {
-			newBeats.push({
-				id: `beat-${i}`,
-				divisions: 4, // デフォルトは4分割
-				color: colorPalette[i % colorPalette.length],
-			});
-		}
-		setBeats(newBeats);
-		dispatch({ type: "RESET" }); // インデックスをリセット
-	}; */
-
-	// 拍を追加
-	/* 	const addBeat = () => {
-		const newId = `beat-${Date.now()}`;
-		const newColor = colorPalette[beats.length % colorPalette.length];
-		setBeats([...beats, { id: newId, divisions: 4, color: newColor }]);
-	}; */
-
-	// 拍を削除
-	/* 	const removeBeat = () => {
-		if (beats.length > 1) {
-			setBeats(beats.slice(0, -1));
-		}
-	}; */
-
-	// 特定の拍の分割数を変更
 	const updateDivisions = (beatId: string, delta: number) => {
 		setBeats(
 			beats.map((beat) => {
@@ -88,18 +53,30 @@ export const Visualizor = () => {
 	};
 
 	return (
-		<div>
+		<div
+			className={css({
+				display: "grid",
+				gridTemplateRows:
+					"auto auto auto 1fr auto auto",
+				gap: 4,
+				h: "full",
+				maxW: "400px",
+				w: "full",
+				justifySelf: "center",
+			})}
+		>
+			{/* Row 1: BPM Display */}
+			<BpmDisplay />
+
+			{/* Row 2: Beat Circles */}
 			<div
 				className={css({
 					display: "grid",
-					gridTemplateColumns: "repeat(4, 80px)",
-					alignContent: "start",
-					justifyContent: "center",
+					gridTemplateColumns: "repeat(4, 1fr)",
+					justifyItems: "center",
 					w: "full",
-					h: "full",
 				})}
 			>
-				{/* 各拍ごとに円を描画 */}
 				{beats.map((beat, beatIndex) => (
 					<BeatCircle
 						key={beat.id}
@@ -112,20 +89,22 @@ export const Visualizor = () => {
 				))}
 			</div>
 
-			{/* basic controls */}
+			{/* Row 3: Selectors (4/4 | ♪) */}
 			<div
 				className={css({
-					w: "full",
-					display: "flex",
+					display: "grid",
+					gridTemplateColumns: "auto auto auto",
 					justifyContent: "center",
 					alignItems: "center",
-					gap: 6,
+					gap: 4,
+					color: "lamp",
 				})}
 			>
 				<TimeSignatureSelector />
 				<span
 					className={css({
-						fontSize: "4xl",
+						fontSize: "3xl",
+						color: "lamp-dim",
 					})}
 				>
 					|
@@ -133,9 +112,23 @@ export const Visualizor = () => {
 				<DivisionControl />
 			</div>
 
-			<TouchPad />
-			<VolumeSlider />
+			{/* Row 4: TouchPad + VolumeSlider */}
+			<div
+				className={css({
+					display: "grid",
+					gridTemplateColumns: "1fr auto",
+					gap: 3,
+					alignItems: "stretch",
+				})}
+			>
+				<TouchPad />
+				<VolumeSlider />
+			</div>
+
+			{/* Row 5: BPM Slider */}
 			<BpmSlider />
+
+			{/* Row 6: Play Button */}
 			<PlayButton />
 		</div>
 	);

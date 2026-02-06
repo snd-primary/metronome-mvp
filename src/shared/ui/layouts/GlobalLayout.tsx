@@ -18,6 +18,7 @@ export const GlobalLayout: React.FC<Props> = ({ children }) => {
 				h: "100vh",
 				w: "full",
 				fontFamily: "orbitron",
+				overflow: "hidden",
 			})}
 		>
 			<main

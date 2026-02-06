@@ -6,6 +6,9 @@ const DivisionControl = () => {
 			type="button"
 			className={css({
 				cursor: "pointer",
+				color: "lamp",
+				background: "none",
+				border: "none",
 			})}
 		>
 			<span

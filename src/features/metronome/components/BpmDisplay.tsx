@@ -2,30 +2,31 @@ import { css } from "../../../../styled-system/css";
 
 export const BpmDisplay = () => {
 	return (
-		<div>
-			<span
+		<div
+			className={css({
+				display: "grid",
+				justifyItems: "center",
+				color: "lamp",
+			})}
+		>
+			<output
 				className={css({
-					display: "flex",
-					gap: 4,
-					alignItems: "baseline",
-					justifyContent: "center",
+					fontSize: "8xl",
 					fontWeight: "bold",
+					lineHeight: "1",
 				})}
 			>
-				<output
-					className={css({
-						fontSize: "7xl",
-					})}
-				>
-					120
-				</output>
-				<span
-					className={css({
-						fontSize: "xl",
-					})}
-				>
-					bpm
-				</span>
+				120
+			</output>
+			<span
+				className={css({
+					fontSize: "xs",
+					fontWeight: "bold",
+					textTransform: "uppercase",
+					letterSpacing: "0.2em",
+				})}
+			>
+				BPM
 			</span>
 		</div>
 	);
