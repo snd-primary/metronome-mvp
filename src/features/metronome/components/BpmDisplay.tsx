@@ -1,6 +1,10 @@
 import { css } from "../../../../styled-system/css";
 
-export const BpmDisplay = () => {
+type Props = {
+	bpm: number;
+};
+
+export const BpmDisplay: React.FC<Props> = ({ bpm }) => {
 	return (
 		<div
 			className={css({
@@ -15,7 +19,7 @@ export const BpmDisplay = () => {
 					lineHeight: "1",
 				})}
 			>
-				120
+				{bpm}
 			</output>
 			<span
 				className={css({

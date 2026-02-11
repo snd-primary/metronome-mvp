@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { css } from "../../../../styled-system/css";
 
 const ACCENT_COLOR = "oklch(0.75 0.12 110)";
@@ -8,7 +9,52 @@ const CENTER = Math.floor(TICK_COUNT / 2);
 const TICK_HEIGHT = 36;
 const CENTER_TICK_HEIGHT = 50;
 
-export const BpmSlider = () => {
+type Props = {
+	bpm: number;
+	increase: () => void;
+	decrease: () => void;
+};
+
+export const BpmSlider: React.FC<Props> = ({ increase, decrease, bpm }) => {
+	const slideBarRef = useRef<HTMLDivElement>(null);
+	const isDragging = useRef<boolean>(false);
+	const startX = useRef<number>(0);
+
+	useEffect(() => {
+		const target = slideBarRef.current;
+
+		const handleMouseDown = (e: MouseEvent) => {
+			isDragging.current = true;
+			startX.current = e.clientX;
+			return startX.current;
+		};
+		target?.addEventListener("mousedown", handleMouseDown);
+
+		const handleMouseMove = (e: MouseEvent) => {
+			if (!isDragging.current) return;
+			const moveAmount = e.clientX - startX.current;
+			if (moveAmount >= 10) {
+				increase();
+				startX.current = e.clientX;
+			} else if (moveAmount <= -10) {
+				decrease();
+				startX.current = e.clientX;
+			}
+		};
+		target?.addEventListener("mousemove", handleMouseMove);
+
+		const handleMouseUp = () => {
+			isDragging.current = false;
+		};
+		target?.addEventListener("mouseup", handleMouseUp);
+
+		return () => {
+			target?.removeEventListener("mousedown", handleMouseDown);
+			target?.removeEventListener("mousemove", handleMouseMove);
+			target?.removeEventListener("mouseup", handleMouseUp);
+		};
+	}, [slideBarRef, isDragging, startX]);
+
 	return (
 		<div
 			className={css({
@@ -27,6 +73,7 @@ export const BpmSlider = () => {
 			>
 				{/* マイナスボタン */}
 				<button
+					onClick={decrease}
 					type="button"
 					className={css({
 						display: "grid",
@@ -59,6 +106,7 @@ export const BpmSlider = () => {
 
 				{/* ティックマークバー（グラデーションオーバーレイ付き） */}
 				<div
+					ref={slideBarRef}
 					className={css({
 						position: "relative",
 						w: "full",
@@ -68,7 +116,6 @@ export const BpmSlider = () => {
 							inset: 0,
 							background:
 								"linear-gradient(to right, var(--colors-background) 0%, transparent 30%, transparent 70%, var(--colors-background) 100%)",
-							pointerEvents: "none",
 						},
 					})}
 				>
@@ -119,6 +166,7 @@ export const BpmSlider = () => {
 
 				{/* プラスボタン */}
 				<button
+					onClick={increase}
 					type="button"
 					className={css({
 						display: "grid",
@@ -174,7 +222,7 @@ export const BpmSlider = () => {
 						fontSize: "3xl",
 					})}
 				>
-					120
+					{bpm}
 				</span>
 				<span
 					className={css({
